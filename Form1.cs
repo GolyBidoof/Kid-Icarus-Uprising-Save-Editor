@@ -40,7 +40,7 @@ namespace Kid_Icarus_Uprising_Save_Editor
             if (size == 66296)
             {
 
-                heartsUpDown.Value = (int) bytes[488] + (int) bytes[489] * 256 + (int) bytes[490] * 256 * 256 + (int) bytes[491] * 256 * 256 * 256;
+                heartsUpDown.Value = (int)bytes[488] + (int)bytes[489] * 256 + (int)bytes[490] * 256 * 256 + (int)bytes[491] * 256 * 256 * 256;
                 int startval = 12;
                 int notunlocked = 0;
                 int unlocked = 0;
@@ -108,13 +108,13 @@ namespace Kid_Icarus_Uprising_Save_Editor
             int scorestartval = 65640;
             score.Value = bytes[scorestartval + comboBox1.SelectedIndex * 4] + bytes[scorestartval + comboBox1.SelectedIndex * 4 + 1] * 256 + bytes[scorestartval + comboBox1.SelectedIndex * 4 + 2] * 256 * 256 + bytes[scorestartval + comboBox1.SelectedIndex * 4 + 3] * 256 * 256 * 256;
             int enemiesstartval = 33648;
-            enemies.Value=bytes[enemiesstartval+comboBox1.SelectedIndex*8] + bytes[enemiesstartval+comboBox1.SelectedIndex*8+1]*256 + bytes[enemiesstartval+comboBox1.SelectedIndex*8+2]*256*256 + bytes[enemiesstartval+comboBox1.SelectedIndex*8+3]*256*256*256;
+            enemies.Value = bytes[enemiesstartval + comboBox1.SelectedIndex * 8] + bytes[enemiesstartval + comboBox1.SelectedIndex * 8 + 1] * 256 + bytes[enemiesstartval + comboBox1.SelectedIndex * 8 + 2] * 256 * 256 + bytes[enemiesstartval + comboBox1.SelectedIndex * 8 + 3] * 256 * 256 * 256;
             int difficultystartval = 65772;
             byte[] temparray = new byte[4];
-            Array.Copy(bytes, difficultystartval+comboBox1.SelectedIndex * 4, temparray, 0, 4);
+            Array.Copy(bytes, difficultystartval + comboBox1.SelectedIndex * 4, temparray, 0, 4);
             float intensity = BitConverter.ToSingle(temparray, 0);
             textBox13.Text = intensity.ToString();
-            difficulty.Value = (int) (intensity * 10);
+            difficulty.Value = (int)(intensity * 10);
         }
 
         private void textBox4_TextChanged(object sender, EventArgs e)
@@ -134,14 +134,13 @@ namespace Kid_Icarus_Uprising_Save_Editor
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            textBox13.Text = ((float) difficulty.Value / 10).ToString();
-            byte[] bytetemp = BitConverter.GetBytes((float) difficulty.Value/10);
+            textBox13.Text = ((float)difficulty.Value / 10).ToString();
+            byte[] bytetemp = BitConverter.GetBytes((float)difficulty.Value / 10);
             int difficultystartval = 65772;
             bytes[difficultystartval + comboBox1.SelectedIndex * 4] = bytetemp[0];
             bytes[difficultystartval + 1 + comboBox1.SelectedIndex * 4] = bytetemp[1];
             bytes[difficultystartval + 2 + comboBox1.SelectedIndex * 4] = bytetemp[2];
             bytes[difficultystartval + 3 + comboBox1.SelectedIndex * 4] = bytetemp[3];
-            textBox1.Text = System.BitConverter.ToString(bytetemp);
             byte[] temparray = new byte[4];
             Array.Copy(bytes, difficultystartval + comboBox1.SelectedIndex * 4, temparray, 0, 4);
             float intensity = BitConverter.ToSingle(temparray, 0);
@@ -158,7 +157,8 @@ namespace Kid_Icarus_Uprising_Save_Editor
             unit.Text = "units";
             statsVal.DecimalPlaces = 0;
             statsVal.Maximum = 9999999999;
-            if ((new[] { 1, 2, 49, 50, 53, 57, 58 }).Contains(statsNames.SelectedIndex)) {
+            if ((new[] { 1, 2, 49, 50, 53, 57, 58 }).Contains(statsNames.SelectedIndex))
+            {
                 val = val / 3600;
                 unit.Text = "minutes";
             }
@@ -168,7 +168,7 @@ namespace Kid_Icarus_Uprising_Save_Editor
                 statsVal.DecimalPlaces = 1;
                 statsVal.Maximum = 9;
             }
-            statsVal.Value = (decimal) val;
+            statsVal.Value = (decimal)val;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -311,7 +311,7 @@ namespace Kid_Icarus_Uprising_Save_Editor
 
         private void neverReleased_Click(object sender, EventArgs e)
         {
-            
+
             int trophies = 0;
             bytes[1538] = 1;
             bytes[1540] = 1;
@@ -333,10 +333,10 @@ namespace Kid_Icarus_Uprising_Save_Editor
         private void heartsUpDown_ValueChanged(object sender, EventArgs e)
         {
             int startval = 488;
-            bytes[startval+3] = (byte) Math.Floor(heartsUpDown.Value/16777216);
-            bytes[startval + 2] = (byte) Math.Floor((heartsUpDown.Value % 16777216) / 65536);
-            bytes[startval + 1] = (byte) Math.Floor(((heartsUpDown.Value % 16777216) % 65536) / 256);
-            bytes[startval] = (byte) Math.Floor(((heartsUpDown.Value % 16777216) % 65536) % 256);
+            bytes[startval + 3] = (byte)Math.Floor(heartsUpDown.Value / 16777216);
+            bytes[startval + 2] = (byte)Math.Floor((heartsUpDown.Value % 16777216) / 65536);
+            bytes[startval + 1] = (byte)Math.Floor(((heartsUpDown.Value % 16777216) % 65536) / 256);
+            bytes[startval] = (byte)Math.Floor(((heartsUpDown.Value % 16777216) % 65536) % 256);
             heartsUpDown.Value = (int)bytes[488] + (int)bytes[489] * 256 + (int)bytes[490] * 256 * 256 + (int)bytes[491] * 256 * 256 * 256;
 
         }
@@ -354,7 +354,7 @@ namespace Kid_Icarus_Uprising_Save_Editor
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             int startval = 33648;
-            bytes[startval + 3 +comboBox1.SelectedIndex * 8] = (byte)Math.Floor(enemies.Value / 16777216);
+            bytes[startval + 3 + comboBox1.SelectedIndex * 8] = (byte)Math.Floor(enemies.Value / 16777216);
             bytes[startval + 2 + comboBox1.SelectedIndex * 8] = (byte)Math.Floor((enemies.Value % 16777216) / 65536);
             bytes[startval + 1 + comboBox1.SelectedIndex * 8] = (byte)Math.Floor(((enemies.Value % 16777216) % 65536) / 256);
             bytes[startval + comboBox1.SelectedIndex * 8] = (byte)Math.Floor(((enemies.Value % 16777216) % 65536) % 256);
@@ -369,14 +369,15 @@ namespace Kid_Icarus_Uprising_Save_Editor
             {
                 multiplier = 3600;
             }
-            else {
+            else
+            {
                 multiplier = 1;
             }
             bytes[startval + 3 + statsNames.SelectedIndex * 4] = (byte)Math.Floor(statsVal.Value * multiplier / 16777216);
             bytes[startval + 2 + statsNames.SelectedIndex * 4] = (byte)Math.Floor((statsVal.Value * multiplier % 16777216) / 65536);
             bytes[startval + 1 + statsNames.SelectedIndex * 4] = (byte)Math.Floor(((statsVal.Value * multiplier % 16777216) % 65536) / 256);
             bytes[startval + statsNames.SelectedIndex * 4] = (byte)Math.Floor(((statsVal.Value * multiplier % 16777216) % 65536) % 256);
-            
+
             if ((new[] { 24, 25 }).Contains(statsNames.SelectedIndex))
             {
                 byte[] bytetemp = BitConverter.GetBytes((float)statsVal.Value);
@@ -421,6 +422,27 @@ namespace Kid_Icarus_Uprising_Save_Editor
             bytes[startval + 1] = (byte)Math.Floor(((viridiBox.Value % 16777216) % 65536) / 256);
             bytes[startval] = (byte)Math.Floor(((viridiBox.Value % 16777216) % 65536) % 256);
             viridiBox.Value = (int)bytes[startval] + (int)bytes[startval + 1] * 256 + (int)bytes[startval + 2] * 256 * 256 + (int)bytes[startval + 3] * 256 * 256 * 256;
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            if (size != -1)
+            {
+                saveFileDialog1.FileName = "s01.sav";
+                DialogResult resultsave = saveFileDialog1.ShowDialog(); // Show the dialog.
+                if (resultsave == DialogResult.OK) // Test result.
+                {
+                    string file = saveFileDialog1.FileName;
+                    try
+                    {
+                        File.WriteAllBytes(file, bytes);
+                    }
+                    catch (IOException)
+                    {
+                        MessageBox.Show("You didn't save any file.");
+                    }
+                }
+            }
         }
     }
 }
