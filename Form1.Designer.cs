@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button1 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.heartsUpDown = new System.Windows.Forms.NumericUpDown();
@@ -610,8 +611,10 @@
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.heartsUpDown);
             this.Controls.Add(this.button1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Kid Icarus Uprising Save Editor";
             ((System.ComponentModel.ISupportInitialize)(this.heartsUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.enemies)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.statsVal)).EndInit();
