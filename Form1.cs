@@ -156,8 +156,8 @@ namespace Kid_Icarus_Uprising_Save_Editor
             int startval = 65976;
             float val = bytes[startval + (int)statsNames.SelectedIndex * 4] + bytes[startval + (int)statsNames.SelectedIndex * 4 + 1] * 256 + bytes[startval + (int)statsNames.SelectedIndex * 4 + 2] * 256 * 256 + bytes[startval + (int)statsNames.SelectedIndex * 4 + 3] * 256 * 256 * 256;
             unit.Text = "units";
-            numericUpDown2.DecimalPlaces = 0;
-            numericUpDown2.Maximum = 9999999999;
+            statsVal.DecimalPlaces = 0;
+            statsVal.Maximum = 9999999999;
             if ((new[] { 1, 2, 49, 50, 53, 57, 58 }).Contains(statsNames.SelectedIndex)) {
                 val = val / 3600;
                 unit.Text = "minutes";
@@ -165,10 +165,10 @@ namespace Kid_Icarus_Uprising_Save_Editor
             if ((new[] { 24, 25 }).Contains(statsNames.SelectedIndex))
             {
                 val = BitConverter.ToSingle(bytes, startval + statsNames.SelectedIndex * 4);
-                numericUpDown2.DecimalPlaces = 1;
-                numericUpDown2.Maximum = 9;
+                statsVal.DecimalPlaces = 1;
+                statsVal.Maximum = 9;
             }
-            numericUpDown2.Value = (decimal) val;
+            statsVal.Value = (decimal) val;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -359,6 +359,68 @@ namespace Kid_Icarus_Uprising_Save_Editor
             bytes[startval + 1 + comboBox1.SelectedIndex * 8] = (byte)Math.Floor(((enemies.Value % 16777216) % 65536) / 256);
             bytes[startval + comboBox1.SelectedIndex * 8] = (byte)Math.Floor(((enemies.Value % 16777216) % 65536) % 256);
             enemies.Value = (int)bytes[startval + comboBox1.SelectedIndex * 8] + (int)bytes[startval + 1 + comboBox1.SelectedIndex * 8] * 256 + (int)bytes[startval + 2 + comboBox1.SelectedIndex * 8] * 256 * 256 + (int)bytes[startval + 3 + comboBox1.SelectedIndex * 8] * 256 * 256 * 256;
+        }
+
+        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
+        {
+            int startval = 65976;
+            int multiplier;
+            if ((new[] { 1, 2, 49, 50, 53, 57, 58 }).Contains(statsNames.SelectedIndex))
+            {
+                multiplier = 3600;
+            }
+            else {
+                multiplier = 1;
+            }
+            bytes[startval + 3 + statsNames.SelectedIndex * 4] = (byte)Math.Floor(statsVal.Value * multiplier / 16777216);
+            bytes[startval + 2 + statsNames.SelectedIndex * 4] = (byte)Math.Floor((statsVal.Value * multiplier % 16777216) / 65536);
+            bytes[startval + 1 + statsNames.SelectedIndex * 4] = (byte)Math.Floor(((statsVal.Value * multiplier % 16777216) % 65536) / 256);
+            bytes[startval + statsNames.SelectedIndex * 4] = (byte)Math.Floor(((statsVal.Value * multiplier % 16777216) % 65536) % 256);
+            
+            if ((new[] { 24, 25 }).Contains(statsNames.SelectedIndex))
+            {
+                byte[] bytetemp = BitConverter.GetBytes((float)statsVal.Value);
+                bytes[startval + statsNames.SelectedIndex * 4] = bytetemp[0];
+                bytes[startval + 1 + statsNames.SelectedIndex * 4] = bytetemp[1];
+                bytes[startval + 2 + statsNames.SelectedIndex * 4] = bytetemp[2];
+                bytes[startval + 3 + statsNames.SelectedIndex * 4] = bytetemp[3];
+            }
+            float val = bytes[startval + (int)statsNames.SelectedIndex * 4] + bytes[startval + (int)statsNames.SelectedIndex * 4 + 1] * 256 + bytes[startval + (int)statsNames.SelectedIndex * 4 + 2] * 256 * 256 + bytes[startval + (int)statsNames.SelectedIndex * 4 + 3] * 256 * 256 * 256;
+            unit.Text = "units";
+            statsVal.DecimalPlaces = 0;
+            statsVal.Maximum = 9999999999;
+            if ((new[] { 1, 2, 49, 50, 53, 57, 58 }).Contains(statsNames.SelectedIndex))
+            {
+                val = val / 3600;
+                unit.Text = "minutes";
+            }
+            if ((new[] { 24, 25 }).Contains(statsNames.SelectedIndex))
+            {
+                val = BitConverter.ToSingle(bytes, startval + statsNames.SelectedIndex * 4);
+                statsVal.DecimalPlaces = 1;
+                statsVal.Maximum = 9;
+            }
+            statsVal.Value = (decimal)val;
+        }
+
+        private void palutenaBox_ValueChanged(object sender, EventArgs e)
+        {
+            int startval = 492;
+            bytes[startval + 3] = (byte)Math.Floor(palutenaBox.Value / 16777216);
+            bytes[startval + 2] = (byte)Math.Floor((palutenaBox.Value % 16777216) / 65536);
+            bytes[startval + 1] = (byte)Math.Floor(((palutenaBox.Value % 16777216) % 65536) / 256);
+            bytes[startval] = (byte)Math.Floor(((palutenaBox.Value % 16777216) % 65536) % 256);
+            palutenaBox.Value = (int)bytes[startval] + (int)bytes[startval + 1] * 256 + (int)bytes[startval + 2] * 256 * 256 + (int)bytes[startval + 3] * 256 * 256 * 256;
+        }
+
+        private void viridiBox_ValueChanged(object sender, EventArgs e)
+        {
+            int startval = 496;
+            bytes[startval + 3] = (byte)Math.Floor(viridiBox.Value / 16777216);
+            bytes[startval + 2] = (byte)Math.Floor((viridiBox.Value % 16777216) / 65536);
+            bytes[startval + 1] = (byte)Math.Floor(((viridiBox.Value % 16777216) % 65536) / 256);
+            bytes[startval] = (byte)Math.Floor(((viridiBox.Value % 16777216) % 65536) % 256);
+            viridiBox.Value = (int)bytes[startval] + (int)bytes[startval + 1] * 256 + (int)bytes[startval + 2] * 256 * 256 + (int)bytes[startval + 3] * 256 * 256 * 256;
         }
     }
 }
