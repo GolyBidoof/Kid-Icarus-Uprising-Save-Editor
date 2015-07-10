@@ -6,3 +6,4 @@ C:\Users\szymb\Documents\Visual Studio 2013\Projects\Kid Icarus Uprising Save Ed
 C:\Users\szymb\Documents\Visual Studio 2013\Projects\Kid Icarus Uprising Save Editor\Kid Icarus Uprising Save Editor\obj\Release\Kid Icarus Uprising Save Editor.csproj.GenerateResource.Cache
 C:\Users\szymb\Documents\Visual Studio 2013\Projects\Kid Icarus Uprising Save Editor\Kid Icarus Uprising Save Editor\obj\Release\Kid Icarus Uprising Save Editor.exe
 C:\Users\szymb\Documents\Visual Studio 2013\Projects\Kid Icarus Uprising Save Editor\Kid Icarus Uprising Save Editor\obj\Release\Kid Icarus Uprising Save Editor.pdb
+C:\Users\szymb\Documents\Visual Studio 2013\Projects\Kid Icarus Uprising Save Editor\Kid Icarus Uprising Save Editor\obj\Release\Kid Icarus Uprising Save Editor.csprojResolveAssemblyReference.cache
