@@ -64,6 +64,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.neverReleased = new System.Windows.Forms.Button();
             this.unit = new System.Windows.Forms.TextBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.heartsUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.enemies)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.statsVal)).BeginInit();
@@ -89,7 +91,7 @@
             // 
             // heartsUpDown
             // 
-            this.heartsUpDown.Location = new System.Drawing.Point(112, 41);
+            this.heartsUpDown.Location = new System.Drawing.Point(112, 71);
             this.heartsUpDown.Maximum = new decimal(new int[] {
             -1,
             0,
@@ -104,7 +106,7 @@
             // 
             this.textBox2.BackColor = System.Drawing.SystemColors.Control;
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox2.Location = new System.Drawing.Point(20, 43);
+            this.textBox2.Location = new System.Drawing.Point(20, 73);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(86, 13);
             this.textBox2.TabIndex = 3;
@@ -140,7 +142,7 @@
             "Chapter 23",
             "Chapter 24",
             "Chapter 25"});
-            this.comboBox1.Location = new System.Drawing.Point(20, 74);
+            this.comboBox1.Location = new System.Drawing.Point(20, 104);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(212, 21);
             this.comboBox1.TabIndex = 4;
@@ -150,7 +152,7 @@
             // 
             this.textBox3.BackColor = System.Drawing.SystemColors.Control;
             this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox3.Location = new System.Drawing.Point(20, 138);
+            this.textBox3.Location = new System.Drawing.Point(20, 168);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(98, 13);
             this.textBox3.TabIndex = 5;
@@ -159,7 +161,7 @@
             // 
             // enemies
             // 
-            this.enemies.Location = new System.Drawing.Point(151, 136);
+            this.enemies.Location = new System.Drawing.Point(151, 166);
             this.enemies.Maximum = new decimal(new int[] {
             -1,
             0,
@@ -174,7 +176,7 @@
             // 
             this.textBox4.BackColor = System.Drawing.SystemColors.Control;
             this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox4.Location = new System.Drawing.Point(20, 397);
+            this.textBox4.Location = new System.Drawing.Point(20, 427);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(212, 13);
             this.textBox4.TabIndex = 7;
@@ -184,7 +186,7 @@
             // 
             // statsVal
             // 
-            this.statsVal.Location = new System.Drawing.Point(20, 443);
+            this.statsVal.Location = new System.Drawing.Point(20, 473);
             this.statsVal.Maximum = new decimal(new int[] {
             1410065407,
             2,
@@ -197,7 +199,7 @@
             // 
             // score
             // 
-            this.score.Location = new System.Drawing.Point(134, 110);
+            this.score.Location = new System.Drawing.Point(134, 140);
             this.score.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -212,7 +214,7 @@
             // 
             this.textBox5.BackColor = System.Drawing.SystemColors.Control;
             this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox5.Location = new System.Drawing.Point(20, 112);
+            this.textBox5.Location = new System.Drawing.Point(20, 142);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(100, 13);
             this.textBox5.TabIndex = 11;
@@ -220,7 +222,7 @@
             // 
             // unlockedBox
             // 
-            this.unlockedBox.Location = new System.Drawing.Point(203, 205);
+            this.unlockedBox.Location = new System.Drawing.Point(203, 235);
             this.unlockedBox.Name = "unlockedBox";
             this.unlockedBox.Size = new System.Drawing.Size(29, 20);
             this.unlockedBox.TabIndex = 12;
@@ -229,7 +231,7 @@
             // 
             this.textBox7.BackColor = System.Drawing.SystemColors.Control;
             this.textBox7.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox7.Location = new System.Drawing.Point(20, 208);
+            this.textBox7.Location = new System.Drawing.Point(20, 238);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(125, 13);
             this.textBox7.TabIndex = 13;
@@ -240,7 +242,7 @@
             // 
             this.textBox8.BackColor = System.Drawing.SystemColors.Control;
             this.textBox8.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox8.Location = new System.Drawing.Point(20, 234);
+            this.textBox8.Location = new System.Drawing.Point(20, 264);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(125, 13);
             this.textBox8.TabIndex = 14;
@@ -248,7 +250,7 @@
             // 
             // hintBox
             // 
-            this.hintBox.Location = new System.Drawing.Point(203, 231);
+            this.hintBox.Location = new System.Drawing.Point(203, 261);
             this.hintBox.Name = "hintBox";
             this.hintBox.Size = new System.Drawing.Size(29, 20);
             this.hintBox.TabIndex = 15;
@@ -257,7 +259,7 @@
             // 
             this.textBox10.BackColor = System.Drawing.SystemColors.Control;
             this.textBox10.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox10.Location = new System.Drawing.Point(20, 260);
+            this.textBox10.Location = new System.Drawing.Point(20, 290);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(125, 13);
             this.textBox10.TabIndex = 16;
@@ -265,14 +267,14 @@
             // 
             // lockedBox
             // 
-            this.lockedBox.Location = new System.Drawing.Point(203, 257);
+            this.lockedBox.Location = new System.Drawing.Point(203, 287);
             this.lockedBox.Name = "lockedBox";
             this.lockedBox.Size = new System.Drawing.Size(29, 20);
             this.lockedBox.TabIndex = 17;
             // 
             // unlockAll
             // 
-            this.unlockAll.Location = new System.Drawing.Point(20, 310);
+            this.unlockAll.Location = new System.Drawing.Point(20, 340);
             this.unlockAll.Name = "unlockAll";
             this.unlockAll.Size = new System.Drawing.Size(212, 23);
             this.unlockAll.TabIndex = 18;
@@ -282,7 +284,7 @@
             // 
             // hintButton
             // 
-            this.hintButton.Location = new System.Drawing.Point(20, 339);
+            this.hintButton.Location = new System.Drawing.Point(20, 369);
             this.hintButton.Name = "hintButton";
             this.hintButton.Size = new System.Drawing.Size(212, 23);
             this.hintButton.TabIndex = 19;
@@ -293,7 +295,7 @@
             // difficulty
             // 
             this.difficulty.AutoSize = false;
-            this.difficulty.Location = new System.Drawing.Point(20, 178);
+            this.difficulty.Location = new System.Drawing.Point(20, 208);
             this.difficulty.Maximum = 90;
             this.difficulty.Name = "difficulty";
             this.difficulty.Size = new System.Drawing.Size(191, 21);
@@ -305,7 +307,7 @@
             // 
             this.textBox12.BackColor = System.Drawing.SystemColors.Control;
             this.textBox12.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox12.Location = new System.Drawing.Point(20, 157);
+            this.textBox12.Location = new System.Drawing.Point(20, 187);
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(212, 13);
             this.textBox12.TabIndex = 21;
@@ -316,7 +318,7 @@
             // 
             this.textBox13.BackColor = System.Drawing.SystemColors.Control;
             this.textBox13.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox13.Location = new System.Drawing.Point(210, 179);
+            this.textBox13.Location = new System.Drawing.Point(210, 209);
             this.textBox13.Name = "textBox13";
             this.textBox13.Size = new System.Drawing.Size(22, 13);
             this.textBox13.TabIndex = 22;
@@ -325,7 +327,7 @@
             // 
             // palutenaBox
             // 
-            this.palutenaBox.Location = new System.Drawing.Point(151, 477);
+            this.palutenaBox.Location = new System.Drawing.Point(151, 507);
             this.palutenaBox.Maximum = new decimal(new int[] {
             9999999,
             0,
@@ -338,7 +340,7 @@
             // 
             // viridiBox
             // 
-            this.viridiBox.Location = new System.Drawing.Point(151, 503);
+            this.viridiBox.Location = new System.Drawing.Point(151, 533);
             this.viridiBox.Maximum = new decimal(new int[] {
             9999999,
             0,
@@ -353,7 +355,7 @@
             // 
             this.textBox14.BackColor = System.Drawing.SystemColors.Control;
             this.textBox14.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox14.Location = new System.Drawing.Point(20, 479);
+            this.textBox14.Location = new System.Drawing.Point(20, 509);
             this.textBox14.Name = "textBox14";
             this.textBox14.Size = new System.Drawing.Size(100, 13);
             this.textBox14.TabIndex = 25;
@@ -363,7 +365,7 @@
             // 
             this.textBox15.BackColor = System.Drawing.SystemColors.Control;
             this.textBox15.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox15.Location = new System.Drawing.Point(20, 505);
+            this.textBox15.Location = new System.Drawing.Point(20, 535);
             this.textBox15.Name = "textBox15";
             this.textBox15.Size = new System.Drawing.Size(100, 13);
             this.textBox15.TabIndex = 26;
@@ -449,7 +451,7 @@
             " ??? ",
             " Weapons fused from gems ",
             " Hearts acquired by gems "});
-            this.statsNames.Location = new System.Drawing.Point(20, 416);
+            this.statsNames.Location = new System.Drawing.Point(20, 446);
             this.statsNames.Name = "statsNames";
             this.statsNames.Size = new System.Drawing.Size(212, 21);
             this.statsNames.TabIndex = 27;
@@ -457,7 +459,7 @@
             // 
             // featherButton
             // 
-            this.featherButton.Location = new System.Drawing.Point(20, 368);
+            this.featherButton.Location = new System.Drawing.Point(20, 398);
             this.featherButton.Name = "featherButton";
             this.featherButton.Size = new System.Drawing.Size(212, 23);
             this.featherButton.TabIndex = 28;
@@ -469,7 +471,7 @@
             // 
             this.textBox16.BackColor = System.Drawing.SystemColors.Control;
             this.textBox16.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox16.Location = new System.Drawing.Point(20, 287);
+            this.textBox16.Location = new System.Drawing.Point(20, 317);
             this.textBox16.Name = "textBox16";
             this.textBox16.Size = new System.Drawing.Size(140, 13);
             this.textBox16.TabIndex = 29;
@@ -477,7 +479,7 @@
             // 
             // featherBox
             // 
-            this.featherBox.Location = new System.Drawing.Point(203, 284);
+            this.featherBox.Location = new System.Drawing.Point(203, 314);
             this.featherBox.Name = "featherBox";
             this.featherBox.Size = new System.Drawing.Size(29, 20);
             this.featherBox.TabIndex = 30;
@@ -486,7 +488,7 @@
             // 
             this.textBox6.BackColor = System.Drawing.SystemColors.Control;
             this.textBox6.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox6.Location = new System.Drawing.Point(20, 532);
+            this.textBox6.Location = new System.Drawing.Point(20, 562);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(100, 13);
             this.textBox6.TabIndex = 31;
@@ -495,7 +497,7 @@
             // trophyBox
             // 
             this.trophyBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.trophyBox.Location = new System.Drawing.Point(164, 532);
+            this.trophyBox.Location = new System.Drawing.Point(164, 562);
             this.trophyBox.Name = "trophyBox";
             this.trophyBox.ReadOnly = true;
             this.trophyBox.Size = new System.Drawing.Size(33, 13);
@@ -506,7 +508,7 @@
             // 
             this.textBox11.BackColor = System.Drawing.SystemColors.Control;
             this.textBox11.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox11.Location = new System.Drawing.Point(203, 532);
+            this.textBox11.Location = new System.Drawing.Point(203, 562);
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(29, 13);
             this.textBox11.TabIndex = 33;
@@ -514,7 +516,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(20, 552);
+            this.button2.Location = new System.Drawing.Point(20, 582);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(212, 23);
             this.button2.TabIndex = 34;
@@ -524,7 +526,7 @@
             // 
             // neverReleased
             // 
-            this.neverReleased.Location = new System.Drawing.Point(20, 582);
+            this.neverReleased.Location = new System.Drawing.Point(20, 612);
             this.neverReleased.Name = "neverReleased";
             this.neverReleased.Size = new System.Drawing.Size(212, 23);
             this.neverReleased.TabIndex = 35;
@@ -536,7 +538,7 @@
             // 
             this.unit.BackColor = System.Drawing.SystemColors.Control;
             this.unit.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.unit.Location = new System.Drawing.Point(197, 445);
+            this.unit.Location = new System.Drawing.Point(197, 475);
             this.unit.Name = "unit";
             this.unit.Size = new System.Drawing.Size(35, 13);
             this.unit.TabIndex = 36;
@@ -544,11 +546,22 @@
             this.unit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.unit.TextChanged += new System.EventHandler(this.unit_TextChanged);
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(20, 42);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(212, 23);
+            this.button3.TabIndex = 37;
+            this.button3.Text = "Save File";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click_1);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(249, 616);
+            this.ClientSize = new System.Drawing.Size(249, 648);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.unit);
             this.Controls.Add(this.neverReleased);
             this.Controls.Add(this.button2);
@@ -636,6 +649,8 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button neverReleased;
         private System.Windows.Forms.TextBox unit;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 
