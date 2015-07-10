@@ -36,7 +36,7 @@
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.enemies = new System.Windows.Forms.NumericUpDown();
             this.textBox4 = new System.Windows.Forms.TextBox();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.statsVal = new System.Windows.Forms.NumericUpDown();
             this.score = new System.Windows.Forms.NumericUpDown();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.unlockedBox = new System.Windows.Forms.TextBox();
@@ -64,10 +64,9 @@
             this.button2 = new System.Windows.Forms.Button();
             this.neverReleased = new System.Windows.Forms.Button();
             this.unit = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.heartsUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.enemies)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.statsVal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.score)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.difficulty)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.palutenaBox)).BeginInit();
@@ -183,17 +182,18 @@
             this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
             // 
-            // numericUpDown2
+            // statsVal
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(20, 443);
-            this.numericUpDown2.Maximum = new decimal(new int[] {
+            this.statsVal.Location = new System.Drawing.Point(20, 443);
+            this.statsVal.Maximum = new decimal(new int[] {
             1410065407,
             2,
             0,
             0});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(171, 20);
-            this.numericUpDown2.TabIndex = 8;
+            this.statsVal.Name = "statsVal";
+            this.statsVal.Size = new System.Drawing.Size(171, 20);
+            this.statsVal.TabIndex = 8;
+            this.statsVal.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
             // 
             // score
             // 
@@ -334,6 +334,7 @@
             this.palutenaBox.Name = "palutenaBox";
             this.palutenaBox.Size = new System.Drawing.Size(81, 20);
             this.palutenaBox.TabIndex = 23;
+            this.palutenaBox.ValueChanged += new System.EventHandler(this.palutenaBox_ValueChanged);
             // 
             // viridiBox
             // 
@@ -346,6 +347,7 @@
             this.viridiBox.Name = "viridiBox";
             this.viridiBox.Size = new System.Drawing.Size(81, 20);
             this.viridiBox.TabIndex = 24;
+            this.viridiBox.ValueChanged += new System.EventHandler(this.viridiBox_ValueChanged);
             // 
             // textBox14
             // 
@@ -542,19 +544,11 @@
             this.unit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.unit.TextChanged += new System.EventHandler(this.unit_TextChanged);
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(20, 86);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(212, 20);
-            this.textBox1.TabIndex = 37;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(249, 616);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.unit);
             this.Controls.Add(this.neverReleased);
             this.Controls.Add(this.button2);
@@ -582,7 +576,7 @@
             this.Controls.Add(this.unlockedBox);
             this.Controls.Add(this.textBox5);
             this.Controls.Add(this.score);
-            this.Controls.Add(this.numericUpDown2);
+            this.Controls.Add(this.statsVal);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.enemies);
             this.Controls.Add(this.textBox3);
@@ -594,7 +588,7 @@
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.heartsUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.enemies)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.statsVal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.score)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.difficulty)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.palutenaBox)).EndInit();
@@ -614,7 +608,7 @@
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.NumericUpDown enemies;
         private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.NumericUpDown statsVal;
         private System.Windows.Forms.NumericUpDown score;
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.TextBox unlockedBox;
@@ -642,7 +636,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button neverReleased;
         private System.Windows.Forms.TextBox unit;
-        private System.Windows.Forms.TextBox textBox1;
     }
 }
 
