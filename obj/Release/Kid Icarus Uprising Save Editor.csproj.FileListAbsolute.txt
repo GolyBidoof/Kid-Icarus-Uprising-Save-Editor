@@ -1,0 +1,8 @@
+C:\Users\szymb\Documents\Visual Studio 2013\Projects\Kid Icarus Uprising Save Editor\Kid Icarus Uprising Save Editor\bin\Release\Kid Icarus Uprising Save Editor.exe.config
+C:\Users\szymb\Documents\Visual Studio 2013\Projects\Kid Icarus Uprising Save Editor\Kid Icarus Uprising Save Editor\bin\Release\Kid Icarus Uprising Save Editor.exe
+C:\Users\szymb\Documents\Visual Studio 2013\Projects\Kid Icarus Uprising Save Editor\Kid Icarus Uprising Save Editor\bin\Release\Kid Icarus Uprising Save Editor.pdb
+C:\Users\szymb\Documents\Visual Studio 2013\Projects\Kid Icarus Uprising Save Editor\Kid Icarus Uprising Save Editor\obj\Release\Kid_Icarus_Uprising_Save_Editor.Form1.resources
+C:\Users\szymb\Documents\Visual Studio 2013\Projects\Kid Icarus Uprising Save Editor\Kid Icarus Uprising Save Editor\obj\Release\Kid_Icarus_Uprising_Save_Editor.Properties.Resources.resources
+C:\Users\szymb\Documents\Visual Studio 2013\Projects\Kid Icarus Uprising Save Editor\Kid Icarus Uprising Save Editor\obj\Release\Kid Icarus Uprising Save Editor.csproj.GenerateResource.Cache
+C:\Users\szymb\Documents\Visual Studio 2013\Projects\Kid Icarus Uprising Save Editor\Kid Icarus Uprising Save Editor\obj\Release\Kid Icarus Uprising Save Editor.exe
+C:\Users\szymb\Documents\Visual Studio 2013\Projects\Kid Icarus Uprising Save Editor\Kid Icarus Uprising Save Editor\obj\Release\Kid Icarus Uprising Save Editor.pdb
