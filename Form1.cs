@@ -1,490 +1,321 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Kid_Icarus_Uprising_Save_Editor
 {
     public partial class Form1 : Form
     {
-        byte[] bytes;
-        int size = -1;
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private SaveGame Save; // SaveGame storage.
+        public struct SaveGame
         {
-            DialogResult result = openFileDialog1.ShowDialog(); // Show the dialog.
-            if (result == DialogResult.OK) // Test result.
-            {
-                string file = openFileDialog1.FileName;
-                try
-                {
-                    bytes = File.ReadAllBytes(file);
-                    size = bytes.Length;
-                }
-                catch (IOException)
-                {
-                    MessageBox.Show("You didn't import any file.");
-                }
+            public byte[] Data;
+            public bool Valid;
+            public int Palutena, Viridi, Hearts, Enemy, Score, Difficulty, Trophy, Stats, Achievements;
 
-            }
-            if (size == 66296)
+            // Savedata Map
+            public SaveGame(byte[] data)
             {
-
-                heartsUpDown.Value = (int)bytes[488] + (int)bytes[489] * 256 + (int)bytes[490] * 256 * 256 + (int)bytes[491] * 256 * 256 * 256;
-                int startval = 12;
-                int notunlocked = 0;
-                int unlocked = 0;
-                int feather = 0;
-                int hint = 0;
-                for (int i = 0; i < 360; i++)
-                {
-                    if ((int)bytes[startval + i] == 0)
-                    {
-                        notunlocked++;
-                    }
-                    if ((int)bytes[startval + i] == 2)
-                    {
-                        unlocked++;
-                    }
-                    if ((int)bytes[startval + i] == 3)
-                    {
-                        feather++;
-                    }
-                    if ((int)bytes[startval + i] == 4)
-                    {
-                        hint++;
-                    }
-                }
-                unlockedBox.Text = unlocked.ToString();
-                hintBox.Text = hint.ToString();
-                lockedBox.Text = notunlocked.ToString();
-                featherBox.Text = feather.ToString();
-                int palutenastartval = 492;
-                palutenaBox.Value = bytes[palutenastartval] + bytes[palutenastartval + 1] * 256 + bytes[palutenastartval + 2] * 256 * 256 + bytes[palutenastartval + 3] * 256 * 256 * 256;
-                viridiBox.Value = bytes[palutenastartval + 4] + bytes[palutenastartval + 5] * 256 + bytes[palutenastartval + 6] * 256 * 256 + bytes[palutenastartval + 7] * 256 * 256 * 256;
-                int trophyval = 1132;
-                int trophies = 0;
-                for (int i = 0; i < 412; i++)
-                {
-                    if ((int)bytes[trophyval + i] > 0)
-                    {
-                        trophies++;
-                    }
-                }
-                trophyBox.Text = trophies.ToString();
+                Data = data;
+                Valid = Data.Length == 66296;
+                Achievements = 12;
+                Hearts = 488;
+                Palutena = 492;
+                Viridi = 496;
+                Trophy = 1132;
+                Enemy = 33648;
+                Score = 65640;
+                Difficulty = 65772;
+                Stats = 65976;
             }
-            else
+        }
+
+        private void importFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            if (openFileDialog1.ShowDialog() != DialogResult.OK) // Test result.
+                return;
+            try
+            {
+                Save = new SaveGame(File.ReadAllBytes(openFileDialog1.FileName));
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("You didn't import any file.");
+            }
+
+            if (!Save.Valid)
             {
                 MessageBox.Show("You didn't import a valid save file.");
+                return;
             }
+
+            // Load save contents.
+            heartsUpDown.Value = BitConverter.ToInt32(Save.Data, Save.Hearts);
+            updateAchievements();
+
+            palutenaBox.Value = BitConverter.ToInt32(Save.Data, Save.Palutena);
+            viridiBox.Value = BitConverter.ToInt32(Save.Data, Save.Viridi);
+
+            countTrophies();
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (size != -1)
-            {
-                int scorestartval = 65640;
-                score.Value = bytes[scorestartval + comboBox1.SelectedIndex * 4] + bytes[scorestartval + comboBox1.SelectedIndex * 4 + 1] * 256 + bytes[scorestartval + comboBox1.SelectedIndex * 4 + 2] * 256 * 256 + bytes[scorestartval + comboBox1.SelectedIndex * 4 + 3] * 256 * 256 * 256;
-                int enemiesstartval = 33648;
-                enemies.Value = bytes[enemiesstartval + comboBox1.SelectedIndex * 8] + bytes[enemiesstartval + comboBox1.SelectedIndex * 8 + 1] * 256 + bytes[enemiesstartval + comboBox1.SelectedIndex * 8 + 2] * 256 * 256 + bytes[enemiesstartval + comboBox1.SelectedIndex * 8 + 3] * 256 * 256 * 256;
-                int difficultystartval = 65772;
-                byte[] temparray = new byte[4];
-                Array.Copy(bytes, difficultystartval + comboBox1.SelectedIndex * 4, temparray, 0, 4);
-                float intensity = BitConverter.ToSingle(temparray, 0);
-                textBox13.Text = intensity.ToString();
-                difficulty.Value = (int)(intensity * 10);
-            }
+            if (!Save.Valid) return;
 
+            int scoreOffset = Save.Score + comboBox_Chapter.SelectedIndex*4;
+            score.Value = BitConverter.ToInt32(Save.Data, scoreOffset);
+            int enemyOffset = Save.Enemy + comboBox_Chapter.SelectedIndex*8;
+            enemies.Value = BitConverter.ToInt32(Save.Data, enemyOffset);
+            int difficultyOffset = Save.Difficulty + comboBox_Chapter.SelectedIndex*4;
+            float intensity = BitConverter.ToSingle(Save.Data, difficultyOffset);
+            textBox13.Text = intensity.ToString();
+            difficulty.Value = (int)(intensity * 10);
         }
-
-        private void textBox4_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox7_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox13_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
+        
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            if (size != -1)
-            {
-                textBox13.Text = ((float)difficulty.Value / 10).ToString();
-                byte[] bytetemp = BitConverter.GetBytes((float)difficulty.Value / 10);
-                int difficultystartval = 65772;
-                bytes[difficultystartval + comboBox1.SelectedIndex * 4] = bytetemp[0];
-                bytes[difficultystartval + 1 + comboBox1.SelectedIndex * 4] = bytetemp[1];
-                bytes[difficultystartval + 2 + comboBox1.SelectedIndex * 4] = bytetemp[2];
-                bytes[difficultystartval + 3 + comboBox1.SelectedIndex * 4] = bytetemp[3];
-                byte[] temparray = new byte[4];
-                Array.Copy(bytes, difficultystartval + comboBox1.SelectedIndex * 4, temparray, 0, 4);
-                float intensity = BitConverter.ToSingle(temparray, 0);
-                textBox13.Text = intensity.ToString();
-                difficulty.Value = (int)(intensity * 10);
-            }
+            if (!Save.Valid) return;
 
+            textBox13.Text = ((float)difficulty.Value / 10).ToString();
+            int difficultyOffset = Save.Difficulty + comboBox_Chapter.SelectedIndex * 4;
+            Array.Copy(BitConverter.GetBytes((float)difficulty.Value / 10), 0, Save.Data, difficultyOffset, 4);
+            float intensity = BitConverter.ToSingle(Save.Data, difficultyOffset);
+            textBox13.Text = intensity.ToString();
+            difficulty.Value = (int)(intensity * 10);
         }
 
         private void statsNames_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (size != -1)
+            if (!Save.Valid) return;
+
+            int offset = Save.Stats + statsNames.SelectedIndex*4;
+            float val = BitConverter.ToInt32(Save.Data, offset);
+            unit.Text = "units";
+            statsVal.DecimalPlaces = 0;
+            statsVal.Maximum = 9999999999;
+            if ((new[] { 1, 2, 49, 50, 53, 57, 58 }).Contains(statsNames.SelectedIndex))
             {
-                int startval = 65976;
-                float val = bytes[startval + (int)statsNames.SelectedIndex * 4] + bytes[startval + (int)statsNames.SelectedIndex * 4 + 1] * 256 + bytes[startval + (int)statsNames.SelectedIndex * 4 + 2] * 256 * 256 + bytes[startval + (int)statsNames.SelectedIndex * 4 + 3] * 256 * 256 * 256;
-                unit.Text = "units";
-                statsVal.DecimalPlaces = 0;
-                statsVal.Maximum = 9999999999;
-                if ((new[] { 1, 2, 49, 50, 53, 57, 58 }).Contains(statsNames.SelectedIndex))
-                {
-                    val = val / 3600;
-                    unit.Text = "minutes";
-                }
-                if ((new[] { 24, 25 }).Contains(statsNames.SelectedIndex))
-                {
-                    val = BitConverter.ToSingle(bytes, startval + statsNames.SelectedIndex * 4);
-                    statsVal.DecimalPlaces = 1;
-                    statsVal.Maximum = 9;
-                }
-                statsVal.Value = (decimal)val;
+                val = val / 3600;
+                unit.Text = "minutes";
             }
-            
+            if ((new[] { 24, 25 }).Contains(statsNames.SelectedIndex))
+            {
+                val = BitConverter.ToSingle(Save.Data, offset);
+                statsVal.DecimalPlaces = 1;
+                statsVal.Maximum = 9;
+            }
+            statsVal.Value = (decimal)val;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void unlockAll_Click(object sender, EventArgs e)
         {
-            if (size != -1)
-            {
-                int startval = 12;
-                for (int i = 0; i < 360; i++)
-                {
-                    if ((int)bytes[startval + i] == 0 || (int)bytes[startval + i] == 4)
-                    {
-                        bytes[startval + i] = 2;
-                    }
-                }
-                int notunlocked = 0;
-                int unlocked = 0;
-                int feather = 0;
-                int hint = 0;
-                for (int i = 0; i < 360; i++)
-                {
-                    if ((int)bytes[startval + i] == 0)
-                    {
-                        notunlocked++;
-                    }
-                    if ((int)bytes[startval + i] == 2)
-                    {
-                        unlocked++;
-                    }
-                    if ((int)bytes[startval + i] == 3)
-                    {
-                        feather++;
-                    }
-                    if ((int)bytes[startval + i] == 4)
-                    {
-                        hint++;
-                    }
-                }
-                unlockedBox.Text = unlocked.ToString();
-                hintBox.Text = hint.ToString();
-                lockedBox.Text = notunlocked.ToString();
-                featherBox.Text = feather.ToString();
-            }
-        }
+            if (!Save.Valid) return;
 
-        private void button3_Click(object sender, EventArgs e)
+            int offset = Save.Achievements;
+            for (int i = 0; i < 360; i++)
+            {
+                if (Save.Data[offset + i] == 0 || Save.Data[offset + i] == 4)
+                {
+                    Save.Data[offset + i] = 2;
+                }
+            }
+            updateAchievements();
+        }
+        private void hideButton_Click(object sender, EventArgs e)
         {
-            if (size != -1)
-            {
-                int startval = 12;
-                for (int i = 0; i < 360; i++)
-                {
-                    if ((int)bytes[startval + i] == 0)
-                    {
-                        bytes[startval + i] = 4;
-                    }
-                }
-                int notunlocked = 0;
-                int unlocked = 0;
-                int feather = 0;
-                int hint = 0;
-                for (int i = 0; i < 360; i++)
-                {
-                    if ((int)bytes[startval + i] == 0)
-                    {
-                        notunlocked++;
-                    }
-                    if ((int)bytes[startval + i] == 2)
-                    {
-                        unlocked++;
-                    }
-                    if ((int)bytes[startval + i] == 3)
-                    {
-                        feather++;
-                    }
-                    if ((int)bytes[startval + i] == 4)
-                    {
-                        hint++;
-                    }
-                }
-                unlockedBox.Text = unlocked.ToString();
-                hintBox.Text = hint.ToString();
-                lockedBox.Text = notunlocked.ToString();
-                featherBox.Text = feather.ToString();
-            }
-        }
+            if (!Save.Valid) return;
 
+            int offset = Save.Achievements;
+            for (int i = 0; i < 360; i++)
+            {
+                if (Save.Data[offset + i] == 0)
+                {
+                    Save.Data[offset + i] = 4;
+                }
+            }
+            updateAchievements();
+        }
         private void featherButton_Click(object sender, EventArgs e)
         {
-            if (size != -1)
+            if (!Save.Valid) return;
+
+            int offset = Save.Achievements;
+            for (int i = 0; i < 360; i++)
             {
-                int startval = 12;
-                for (int i = 0; i < 360; i++)
+                if (Save.Data[offset + i] == 3)
                 {
-                    if ((int)bytes[startval + i] == 3)
-                    {
-                        bytes[startval + i] = 2;
-                    }
+                    Save.Data[offset + i] = 2;
                 }
-                int notunlocked = 0;
-                int unlocked = 0;
-                int feather = 0;
-                int hint = 0;
-                for (int i = 0; i < 360; i++)
-                {
-                    if ((int)bytes[startval + i] == 0)
-                    {
-                        notunlocked++;
-                    }
-                    if ((int)bytes[startval + i] == 2)
-                    {
-                        unlocked++;
-                    }
-                    if ((int)bytes[startval + i] == 3)
-                    {
-                        feather++;
-                    }
-                    if ((int)bytes[startval + i] == 4)
-                    {
-                        hint++;
-                    }
-                }
-                unlockedBox.Text = unlocked.ToString();
-                hintBox.Text = hint.ToString();
-                lockedBox.Text = notunlocked.ToString();
-                featherBox.Text = feather.ToString();
             }
-            
+            updateAchievements();
         }
 
-        private void button2_Click_1(object sender, EventArgs e)
+        private void updateAchievements()
         {
-            if (size != -1)
+            int offset = Save.Achievements;
+            int notunlocked = 0;
+            int unlocked = 0;
+            int feather = 0;
+            int hint = 0;
+            for (int i = 0; i < 360; i++)
             {
-                int trophyval = 1132;
-                int trophies = 0;
-                for (int i = 0; i < 412; i++)
+                switch (Save.Data[offset + i])
                 {
-                    if ((int)bytes[trophyval + i] == 0)
-                    {
-                        bytes[trophyval + i] = 1;
-                    }
+                    case 0:
+                        notunlocked++;
+                        break;
+                    case 2:
+                        unlocked++;
+                        break;
+                    case 3:
+                        feather++;
+                        break;
+                    case 4:
+                        hint++;
+                        break;
                 }
-                for (int i = 0; i < 412; i++)
-                {
-                    if ((int)bytes[trophyval + i] > 0)
-                    {
-                        trophies++;
-                    }
-                }
-                trophyBox.Text = trophies.ToString();
             }
+            unlockedBox.Text = unlocked.ToString();
+            hintBox.Text = hint.ToString();
+            lockedBox.Text = notunlocked.ToString();
+            featherBox.Text = feather.ToString();
+        }
+
+        private void unlockTrophies_Click(object sender, EventArgs e)
+        {
+            if (!Save.Valid) return;
+
+            for (int i = 0; i < 412; i++)
+            {
+                if (Save.Data[Save.Trophy + i] == 0)
+                {
+                    Save.Data[Save.Trophy + i] = 1;
+                }
+            }
+            countTrophies();
         }
 
         private void neverReleased_Click(object sender, EventArgs e)
         {
-            if (size != -1)
-            {
-                int trophies = 0;
-                bytes[1538] = 1;
-                bytes[1540] = 1;
-                for (int i = 0; i < 412; i++)
-                {
-                    if ((int)bytes[1132 + i] > 0)
-                    {
-                        trophies++;
-                    }
-                }
-                trophyBox.Text = trophies.ToString();
-            }
-        }
+            if (!Save.Valid) return;
 
-        private void unit_TextChanged(object sender, EventArgs e)
+            Save.Data[1538] = 1;
+            Save.Data[1540] = 1;
+            countTrophies();
+        }
+        private void countTrophies()
         {
-
+            int trophies = 0;
+            for (int i = 0; i < 412; i++)
+            {
+                if (Save.Data[Save.Trophy + i] > 0)
+                {
+                    trophies++;
+                }
+            }
+            trophyBox.Text = trophies.ToString();
         }
-
+        
         private void heartsUpDown_ValueChanged(object sender, EventArgs e)
         {
-            if (size != -1)
-            {
-                int startval = 488;
-                bytes[startval + 3] = (byte)Math.Floor(heartsUpDown.Value / 16777216);
-                bytes[startval + 2] = (byte)Math.Floor((heartsUpDown.Value % 16777216) / 65536);
-                bytes[startval + 1] = (byte)Math.Floor(((heartsUpDown.Value % 16777216) % 65536) / 256);
-                bytes[startval] = (byte)Math.Floor(((heartsUpDown.Value % 16777216) % 65536) % 256);
-                heartsUpDown.Value = (int)bytes[488] + (int)bytes[489] * 256 + (int)bytes[490] * 256 * 256 + (int)bytes[491] * 256 * 256 * 256;
-            }
+            if (!Save.Valid) return;
+
+            Array.Copy(BitConverter.GetBytes((int)heartsUpDown.Value), 0, Save.Data, Save.Hearts, 4);
+            heartsUpDown.Value = BitConverter.ToInt32(Save.Data, Save.Hearts);
         }
 
         private void score_ValueChanged(object sender, EventArgs e)
         {
-            if (size != -1)
-            {
-                int startval = 65640;
-                bytes[startval + 3 + comboBox1.SelectedIndex * 4] = (byte)Math.Floor(score.Value / 16777216);
-                bytes[startval + 2 + comboBox1.SelectedIndex * 4] = (byte)Math.Floor((score.Value % 16777216) / 65536);
-                bytes[startval + 1 + comboBox1.SelectedIndex * 4] = (byte)Math.Floor(((score.Value % 16777216) % 65536) / 256);
-                bytes[startval + comboBox1.SelectedIndex * 4] = (byte)Math.Floor(((score.Value % 16777216) % 65536) % 256);
-                score.Value = (int)bytes[startval + comboBox1.SelectedIndex * 4] + (int)bytes[startval + 1 + comboBox1.SelectedIndex * 4] * 256 + (int)bytes[startval + 2 + comboBox1.SelectedIndex * 4] * 256 * 256 + (int)bytes[startval + 3 + comboBox1.SelectedIndex * 4] * 256 * 256 * 256;
-            }
+            if (!Save.Valid) return;
+
+            int offset = Save.Score + comboBox_Chapter.SelectedIndex * 4;
+            Array.Copy(BitConverter.GetBytes((int)score.Value), 0, Save.Data, offset, 4);
+            score.Value = BitConverter.ToInt32(Save.Data, offset);
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            if (size != -1)
-            {
-                int startval = 33648;
-                bytes[startval + 3 + comboBox1.SelectedIndex * 8] = (byte)Math.Floor(enemies.Value / 16777216);
-                bytes[startval + 2 + comboBox1.SelectedIndex * 8] = (byte)Math.Floor((enemies.Value % 16777216) / 65536);
-                bytes[startval + 1 + comboBox1.SelectedIndex * 8] = (byte)Math.Floor(((enemies.Value % 16777216) % 65536) / 256);
-                bytes[startval + comboBox1.SelectedIndex * 8] = (byte)Math.Floor(((enemies.Value % 16777216) % 65536) % 256);
-                enemies.Value = (int)bytes[startval + comboBox1.SelectedIndex * 8] + (int)bytes[startval + 1 + comboBox1.SelectedIndex * 8] * 256 + (int)bytes[startval + 2 + comboBox1.SelectedIndex * 8] * 256 * 256 + (int)bytes[startval + 3 + comboBox1.SelectedIndex * 8] * 256 * 256 * 256;
-            }
+            if (!Save.Valid) return;
+
+            int offset = Save.Enemy + comboBox_Chapter.SelectedIndex * 8;
+            Array.Copy(BitConverter.GetBytes((int)enemies.Value), 0, Save.Data, offset, 4);
+            enemies.Value = BitConverter.ToInt32(Save.Data, offset);
         }
 
         private void numericUpDown2_ValueChanged(object sender, EventArgs e)
         {
-            if (size != -1)
-            {
-                int startval = 65976;
-                int multiplier;
-                if ((new[] { 1, 2, 49, 50, 53, 57, 58 }).Contains(statsNames.SelectedIndex))
-                {
-                    multiplier = 3600;
-                }
-                else
-                {
-                    multiplier = 1;
-                }
-                bytes[startval + 3 + statsNames.SelectedIndex * 4] = (byte)Math.Floor(statsVal.Value * multiplier / 16777216);
-                bytes[startval + 2 + statsNames.SelectedIndex * 4] = (byte)Math.Floor((statsVal.Value * multiplier % 16777216) / 65536);
-                bytes[startval + 1 + statsNames.SelectedIndex * 4] = (byte)Math.Floor(((statsVal.Value * multiplier % 16777216) % 65536) / 256);
-                bytes[startval + statsNames.SelectedIndex * 4] = (byte)Math.Floor(((statsVal.Value * multiplier % 16777216) % 65536) % 256);
+            if (!Save.Valid) return;
 
-                if ((new[] { 24, 25 }).Contains(statsNames.SelectedIndex))
-                {
-                    byte[] bytetemp = BitConverter.GetBytes((float)statsVal.Value);
-                    bytes[startval + statsNames.SelectedIndex * 4] = bytetemp[0];
-                    bytes[startval + 1 + statsNames.SelectedIndex * 4] = bytetemp[1];
-                    bytes[startval + 2 + statsNames.SelectedIndex * 4] = bytetemp[2];
-                    bytes[startval + 3 + statsNames.SelectedIndex * 4] = bytetemp[3];
-                }
-                float val = bytes[startval + (int)statsNames.SelectedIndex * 4] + bytes[startval + (int)statsNames.SelectedIndex * 4 + 1] * 256 + bytes[startval + (int)statsNames.SelectedIndex * 4 + 2] * 256 * 256 + bytes[startval + (int)statsNames.SelectedIndex * 4 + 3] * 256 * 256 * 256;
-                unit.Text = "units";
-                statsVal.DecimalPlaces = 0;
-                statsVal.Maximum = 9999999999;
-                if ((new[] { 1, 2, 49, 50, 53, 57, 58 }).Contains(statsNames.SelectedIndex))
-                {
-                    val = val / 3600;
-                    unit.Text = "minutes";
-                }
-                if ((new[] { 24, 25 }).Contains(statsNames.SelectedIndex))
-                {
-                    val = BitConverter.ToSingle(bytes, startval + statsNames.SelectedIndex * 4);
-                    statsVal.DecimalPlaces = 1;
-                    statsVal.Maximum = 9;
-                }
-                statsVal.Value = (decimal)val;
+            int offset = Save.Stats + statsNames.SelectedIndex * 4;
+            int multiplier = (new[] { 1, 2, 49, 50, 53, 57, 58 }).Contains(statsNames.SelectedIndex) ? 3600 : 1;
+
+            Array.Copy(BitConverter.GetBytes((int)statsVal.Value * multiplier), 0, Save.Data, offset, 4);
+
+            if ((new[] { 24, 25 }).Contains(statsNames.SelectedIndex))
+            {
+                Array.Copy(BitConverter.GetBytes((int)statsVal.Value), 0, Save.Data, offset, 4);
             }
-            
+
+            float val = BitConverter.ToInt32(Save.Data, offset);
+            unit.Text = "units";
+            statsVal.DecimalPlaces = 0;
+            statsVal.Maximum = 9999999999;
+            if ((new[] { 1, 2, 49, 50, 53, 57, 58 }).Contains(statsNames.SelectedIndex))
+            {
+                val /= 3600;
+                unit.Text = "minutes";
+            }
+            if ((new[] { 24, 25 }).Contains(statsNames.SelectedIndex))
+            {
+                val = BitConverter.ToSingle(Save.Data, offset);
+                statsVal.DecimalPlaces = 1;
+                statsVal.Maximum = 9;
+            }
+            statsVal.Value = (decimal)val;
         }
 
         private void palutenaBox_ValueChanged(object sender, EventArgs e)
         {
-            if (size != -1)
-            {
-                int startval = 492;
-                bytes[startval + 3] = (byte)Math.Floor(palutenaBox.Value / 16777216);
-                bytes[startval + 2] = (byte)Math.Floor((palutenaBox.Value % 16777216) / 65536);
-                bytes[startval + 1] = (byte)Math.Floor(((palutenaBox.Value % 16777216) % 65536) / 256);
-                bytes[startval] = (byte)Math.Floor(((palutenaBox.Value % 16777216) % 65536) % 256);
-                palutenaBox.Value = (int)bytes[startval] + (int)bytes[startval + 1] * 256 + (int)bytes[startval + 2] * 256 * 256 + (int)bytes[startval + 3] * 256 * 256 * 256;
-            }
+            if (!Save.Valid) return;
+
+            Array.Copy(BitConverter.GetBytes((int)palutenaBox.Value), 0, Save.Data, Save.Palutena, 4);
+            palutenaBox.Value = BitConverter.ToInt32(Save.Data, Save.Palutena);
         }
 
         private void viridiBox_ValueChanged(object sender, EventArgs e)
         {
-            if (size != -1)
-            {
-                int startval = 496;
-                bytes[startval + 3] = (byte)Math.Floor(viridiBox.Value / 16777216);
-                bytes[startval + 2] = (byte)Math.Floor((viridiBox.Value % 16777216) / 65536);
-                bytes[startval + 1] = (byte)Math.Floor(((viridiBox.Value % 16777216) % 65536) / 256);
-                bytes[startval] = (byte)Math.Floor(((viridiBox.Value % 16777216) % 65536) % 256);
-                viridiBox.Value = (int)bytes[startval] + (int)bytes[startval + 1] * 256 + (int)bytes[startval + 2] * 256 * 256 + (int)bytes[startval + 3] * 256 * 256 * 256;
-            } 
+            if (!Save.Valid) return;
+
+            Array.Copy(BitConverter.GetBytes((int)viridiBox.Value), 0, Save.Data, Save.Viridi, 4);
+            viridiBox.Value = BitConverter.ToInt32(Save.Data, Save.Viridi);
         }
 
-        private void button3_Click_1(object sender, EventArgs e)
+        private void saveFile_Click(object sender, EventArgs e)
         {
-            if (size != -1)
+            if (!Save.Valid) return;
+
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog
             {
-                saveFileDialog1.FileName = "s01.sav";
-                DialogResult resultsave = saveFileDialog1.ShowDialog(); // Show the dialog.
-                if (resultsave == DialogResult.OK) // Test result.
-                {
-                    string file = saveFileDialog1.FileName;
-                    try
-                    {
-                        File.WriteAllBytes(file, bytes);
-                    }
-                    catch (IOException)
-                    {
-                        MessageBox.Show("You didn't save any file.");
-                    }
-                }
+                FileName = "s01.sav"
+            };
+            if (saveFileDialog1.ShowDialog() != DialogResult.OK) 
+                return;
+
+            try
+            {
+                File.WriteAllBytes(saveFileDialog1.FileName, Save.Data);
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("You didn't save any file.");
             }
         }
     }
