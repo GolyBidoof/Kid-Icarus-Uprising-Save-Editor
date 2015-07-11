@@ -29,11 +29,10 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.button1 = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.importFile = new System.Windows.Forms.Button();
             this.heartsUpDown = new System.Windows.Forms.NumericUpDown();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBox_Chapter = new System.Windows.Forms.ComboBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.enemies = new System.Windows.Forms.NumericUpDown();
             this.textBox4 = new System.Windows.Forms.TextBox();
@@ -62,11 +61,10 @@
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.trophyBox = new System.Windows.Forms.TextBox();
             this.textBox11 = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.unlockTrophies = new System.Windows.Forms.Button();
             this.neverReleased = new System.Windows.Forms.Button();
             this.unit = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.saveFile = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.heartsUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.enemies)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.statsVal)).BeginInit();
@@ -76,19 +74,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.viridiBox)).BeginInit();
             this.SuspendLayout();
             // 
-            // button1
+            // importFile
             // 
-            this.button1.Location = new System.Drawing.Point(20, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(212, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Import File";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            this.importFile.Location = new System.Drawing.Point(20, 12);
+            this.importFile.Name = "importFile";
+            this.importFile.Size = new System.Drawing.Size(212, 23);
+            this.importFile.TabIndex = 0;
+            this.importFile.Text = "Import File";
+            this.importFile.UseVisualStyleBackColor = true;
+            this.importFile.Click += new System.EventHandler(this.importFile_Click);
             // 
             // heartsUpDown
             // 
@@ -113,12 +107,11 @@
             this.textBox2.Size = new System.Drawing.Size(86, 13);
             this.textBox2.TabIndex = 3;
             this.textBox2.Text = "Amount of hearts";
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
-            // comboBox1
+            // comboBox_Chapter
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.comboBox_Chapter.FormattingEnabled = true;
+            this.comboBox_Chapter.Items.AddRange(new object[] {
             "Chapter 1",
             "Chapter 2",
             "Chapter 3",
@@ -144,11 +137,11 @@
             "Chapter 23",
             "Chapter 24",
             "Chapter 25"});
-            this.comboBox1.Location = new System.Drawing.Point(20, 107);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(212, 21);
-            this.comboBox1.TabIndex = 4;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.comboBox_Chapter.Location = new System.Drawing.Point(20, 107);
+            this.comboBox_Chapter.Name = "comboBox_Chapter";
+            this.comboBox_Chapter.Size = new System.Drawing.Size(212, 21);
+            this.comboBox_Chapter.TabIndex = 4;
+            this.comboBox_Chapter.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // textBox3
             // 
@@ -160,7 +153,6 @@
             this.textBox3.Size = new System.Drawing.Size(98, 13);
             this.textBox3.TabIndex = 5;
             this.textBox3.Text = "Enemies Defeated";
-            this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // enemies
             // 
@@ -186,7 +178,6 @@
             this.textBox4.TabIndex = 7;
             this.textBox4.Text = "Stats";
             this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
             // 
             // statsVal
             // 
@@ -242,7 +233,6 @@
             this.textBox7.Size = new System.Drawing.Size(125, 13);
             this.textBox7.TabIndex = 13;
             this.textBox7.Text = "Achievements Unlocked";
-            this.textBox7.TextChanged += new System.EventHandler(this.textBox7_TextChanged);
             // 
             // textBox8
             // 
@@ -288,7 +278,7 @@
             this.unlockAll.TabIndex = 18;
             this.unlockAll.Text = "Unlock all achievements";
             this.unlockAll.UseVisualStyleBackColor = true;
-            this.unlockAll.Click += new System.EventHandler(this.button2_Click);
+            this.unlockAll.Click += new System.EventHandler(this.unlockAll_Click);
             // 
             // hintButton
             // 
@@ -298,7 +288,7 @@
             this.hintButton.TabIndex = 19;
             this.hintButton.Text = "Add hints to remaining achievements";
             this.hintButton.UseVisualStyleBackColor = true;
-            this.hintButton.Click += new System.EventHandler(this.button3_Click);
+            this.hintButton.Click += new System.EventHandler(this.hideButton_Click);
             // 
             // difficulty
             // 
@@ -332,7 +322,6 @@
             this.textBox13.Size = new System.Drawing.Size(22, 13);
             this.textBox13.TabIndex = 22;
             this.textBox13.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.textBox13.TextChanged += new System.EventHandler(this.textBox13_TextChanged);
             // 
             // palutenaBox
             // 
@@ -528,15 +517,15 @@
             this.textBox11.TabIndex = 33;
             this.textBox11.Text = "/412";
             // 
-            // button2
+            // unlockTrophies
             // 
-            this.button2.Location = new System.Drawing.Point(20, 598);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(212, 23);
-            this.button2.TabIndex = 34;
-            this.button2.Text = "Unlock all trophies";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click_1);
+            this.unlockTrophies.Location = new System.Drawing.Point(20, 598);
+            this.unlockTrophies.Name = "unlockTrophies";
+            this.unlockTrophies.Size = new System.Drawing.Size(212, 23);
+            this.unlockTrophies.TabIndex = 34;
+            this.unlockTrophies.Text = "Unlock all trophies";
+            this.unlockTrophies.UseVisualStyleBackColor = true;
+            this.unlockTrophies.Click += new System.EventHandler(this.unlockTrophies_Click);
             // 
             // neverReleased
             // 
@@ -558,27 +547,26 @@
             this.unit.TabIndex = 36;
             this.unit.Text = "units";
             this.unit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.unit.TextChanged += new System.EventHandler(this.unit_TextChanged);
             // 
-            // button3
+            // saveFile
             // 
-            this.button3.Location = new System.Drawing.Point(20, 42);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(212, 23);
-            this.button3.TabIndex = 37;
-            this.button3.Text = "Save File";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click_1);
+            this.saveFile.Location = new System.Drawing.Point(20, 42);
+            this.saveFile.Name = "saveFile";
+            this.saveFile.Size = new System.Drawing.Size(212, 23);
+            this.saveFile.TabIndex = 37;
+            this.saveFile.Text = "Save File";
+            this.saveFile.UseVisualStyleBackColor = true;
+            this.saveFile.Click += new System.EventHandler(this.saveFile_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(249, 666);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.saveFile);
             this.Controls.Add(this.unit);
             this.Controls.Add(this.neverReleased);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.unlockTrophies);
             this.Controls.Add(this.textBox11);
             this.Controls.Add(this.trophyBox);
             this.Controls.Add(this.textBox6);
@@ -607,12 +595,13 @@
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.enemies);
             this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.comboBox_Chapter);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.heartsUpDown);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.importFile);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Kid Icarus Uprising Save Editor";
             ((System.ComponentModel.ISupportInitialize)(this.heartsUpDown)).EndInit();
@@ -629,11 +618,10 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Button importFile;
         private System.Windows.Forms.NumericUpDown heartsUpDown;
         private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBox_Chapter;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.NumericUpDown enemies;
         private System.Windows.Forms.TextBox textBox4;
@@ -662,11 +650,10 @@
         private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.TextBox trophyBox;
         private System.Windows.Forms.TextBox textBox11;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button unlockTrophies;
         private System.Windows.Forms.Button neverReleased;
         private System.Windows.Forms.TextBox unit;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Button saveFile;
     }
 }
 
